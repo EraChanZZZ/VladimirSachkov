@@ -1,0 +1,85 @@
+---
+// Reusable single-series magnitude chart: horizontal bars, no dependency.
+// Each bar is split into a muted "baseline" segment and a highlighted "gain"
+// segment so small-but-real improvements over a shared baseline stay legible
+// without truncating the axis (bars still start at zero).
+interface Item { label: string; value: number; best?: boolean }
+const { caption, items, max, baseline, note } = Astro.props as {
+  caption: string; items: Item[]; max: number; baseline: number; note?: string;
+};
+const fmt = (n: number) => n.toFixed(3).replace(/0+$/, '').replace(/\.$/, '');
+
+// Precompute geometry here — Astro misparses `<`/`<=` inside template expressions.
+const rows = items.map((it) => {
+  const delta = it.value - baseline;
+  const hasGain = delta > 0;
+  const totalPct = (Math.min(it.value, max) / max) * 100;
+  const basePct = hasGain ? (baseline / it.value) * 100 : 100;
+  const tip = hasGain
+    ? `${it.label}: APCK ${fmt(it.value)} (+${fmt(delta)} over baseline)`
+    : `${it.label}: APCK ${fmt(it.value)}`;
+  return {
+    label: it.label,
+    value: fmt(it.value),
+    tip,
+    totalPct: totalPct.toFixed(2),
+    basePct: basePct.toFixed(2),
+    hasGain,
+    gainClass: it.best ? 'mc-seg mc-gain best' : 'mc-seg mc-gain',
+  };
+});
+---
+
+<figure class="metric-chart">
+  <figcaption>{caption}</figcaption>
+  <div class="mc-bars">
+    {
+      rows.map((r) => (
+        <div class="mc-row" title={r.tip}>
+          <span class="mc-label">{r.label}</span>
+          <div class="mc-track">
+            <div class="mc-fill" style={`width:${r.totalPct}%`}>
+              <span class="mc-seg mc-base" style={`width:${r.basePct}%`}></span>
+              {r.hasGain && <span class={r.gainClass}></span>}
+            </div>
+            <span class="mc-value">{r.value}</span>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+  {note && <p class="mc-note">{note}</p>}
+</figure>
+
+<style>
+  .metric-chart { margin: 1.5rem 0; }
+  .metric-chart figcaption {
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-bottom: 0.9rem;
+  }
+  .mc-bars { display: flex; flex-direction: column; gap: 0.55rem; }
+  .mc-row { display: grid; grid-template-columns: 11rem 1fr; align-items: center; gap: 0.75rem; }
+  .mc-label { font-family: var(--sans); font-size: 0.82rem; color: var(--ink); text-align: right; }
+  .mc-track { position: relative; display: flex; align-items: center; gap: 0.5rem; }
+  .mc-fill { display: flex; height: 1.15rem; min-width: 2px; }
+  .mc-seg { height: 100%; }
+  .mc-base { background: color-mix(in oklab, var(--muted) 45%, transparent); border-radius: 3px 0 0 3px; }
+  .mc-gain {
+    flex: 1;
+    background: var(--accent);
+    border-radius: 0 4px 4px 0;
+    margin-left: 2px;                 /* 2px surface gap between fills */
+  }
+  /* Baseline-only bar (no gain segment): round both ends. */
+  .mc-fill > .mc-base:only-child { border-radius: 3px; }
+  .mc-gain.best { box-shadow: 0 0 0 1.5px var(--accent-soft), inset 0 0 0 1.5px var(--bg); }
+  .mc-value { font-family: var(--mono); font-size: 0.78rem; color: var(--muted); white-space: nowrap; }
+  .mc-note { font-family: var(--sans); font-size: 0.78rem; color: var(--muted); margin: 0.9rem 0 0; }
+
+  @media (max-width: 540px) {
+    .mc-row { grid-template-columns: 1fr; gap: 0.15rem; }
+    .mc-label { text-align: left; }
+  }
+</style>

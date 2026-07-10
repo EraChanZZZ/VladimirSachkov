@@ -1,0 +1,43 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import MetricBars from '../../components/MetricBars.astro';
+import { withBase } from '../../base';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((p) => ({ params: { slug: p.id }, props: { project: p } }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+const { title, tagline, period, context, tags, links, chart } = project.data;
+---
+
+<Base title={`${title} — Vladimir Sachkov`} description={tagline}>
+  <p class="backlink"><a href={withBase('/')}>← Vladimir Sachkov</a></p>
+  <header class="project-header">
+    <h1>{title}</h1>
+    <p class="meta">{context} · {period}</p>
+    <p class="tagline"><em>{tagline}</em></p>
+    <div class="tag-row">
+      {tags.map((t) => <span class="tag">{t}</span>)}
+    </div>
+    {
+      links.length > 0 && (
+        <p class="meta" style="margin-top: 0.75rem;">
+          {links.map((l, i) => (
+            <>
+              {i > 0 && ' · '}
+              <a href={l.url}>{l.label}</a>
+            </>
+          ))}
+        </p>
+      )
+    }
+  </header>
+  {chart && <MetricBars {...chart} />}
+  <div class="prose">
+    <Content />
+  </div>
+</Base>
