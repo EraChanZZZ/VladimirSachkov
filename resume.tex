@@ -1,0 +1,105 @@
+% One-page resume, mirrors the website content in compressed form.
+% Compile: pdflatex -interaction=nonstopmode resume.tex && copy resume.pdf public\resume.pdf
+% Deployed at https://erachanzzz.github.io/VladimirSachkov/resume.pdf
+\documentclass[10pt]{article}
+\usepackage[a4paper,margin=1.4cm,top=1.2cm,bottom=1.2cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[inline]{enumitem}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xcolor}
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\titleformat{\section}{\large\bfseries}{}{0pt}{}[\vspace{-6pt}\rule{\textwidth}{0.4pt}]
+\titlespacing{\section}{0pt}{8pt}{5pt}
+\setlist[itemize]{leftmargin=1.1em,itemsep=1pt,parsep=0pt,topsep=2pt}
+
+% \entry{title}{dates}{description}
+\newcommand{\entry}[3]{%
+  \textbf{#1} \hfill {\small\color{gray!90!black}#2}\\
+  #3\par\vspace{4pt}}
+
+\begin{document}
+
+{\LARGE\bfseries Vladimir Sachkov}\hfill
+{\small Utrecht, Netherlands}
+
+\vspace{2pt}
+Machine learning engineer - 3D vision, LiDAR, production ML
+
+\vspace{1pt}
+{\small
+  \href{mailto:vladimirsachkov2003@gmail.com}{vladimirsachkov2003@gmail.com} \,$\cdot$\,
+  \href{https://github.com/EraChanZ}{GitHub} \,$\cdot$\,
+  \href{https://www.linkedin.com/in/vladimir-sachkov-a3ba2b243}{LinkedIn} \,$\cdot$\,
+  \href{https://erachanzzz.github.io/VladimirSachkov/}{Website}}
+
+\section{Experience}
+
+\entry{Clear Timber Analytics - ML Engineer}{May 2025 - now}
+{ML core of a tree-analysis product, end to end: 3D instance segmentation on very large
+LiDAR point clouds (reproduced ForestFormer3D and extended it past the prior open-source
+state of the art), the C/C++-accelerated point-cloud library underneath, and the MLOps
+platform around it - one YAML file configures a fully tracked, reproducible training run
+on versioned data. Longest-tenured engineer on the ML team and de-facto product lead:
+experiment planning, sprint facilitation, platform ownership.}
+
+\entry{VisionPlatform - Computer Vision Intern}{Jun - Sep 2024}
+{Auto-annotation pipeline built on an ensemble of open-vocabulary vision-language models;
+multi-GPU inference serving.}
+
+\entry{BasisHealth - Backend Developer}{2022 - 2023}
+{Go microservices on Kubernetes, bidirectional gRPC streaming, Jenkins CI/CD -
+alongside full-time study.}
+
+\section{Education}
+
+\entry{TU Delft - BSc Computer Science, cum laude}{2022 - 2025}
+{GPA 8.1/10. Minor in Quantum Science \& Quantum Information; 10/10 in Mathematical
+Analysis from the maths bachelor. Thesis (9.5/10): domain adaptation for hand-landmark
+detection in infrared imaging, supporting early leprosy screening in Nepal. Founded the
+university programming-contest committee.}
+
+\entry{University of Groningen - Computing Science}{2021 - 2022}
+{First year at GPA 9.35/10, then transferred to TU Delft.}
+
+\entry{IB Diploma, Moscow}{2019 - 2021}
+{80\% merit scholarship for IT competitions and organizing CS events.}
+
+\section{Awards \& selected projects}
+
+\begin{itemize}
+  \item \textbf{Best Dify Workflow Integration, \{Tech: Europe\} Paris AI Hack} (2026) -
+    NestAI, a ``where should I live?'' agent: neighborhood amenity scoring, live
+    listings, a custom OpenStreetMap plugin, multilingual UI.
+  \item \textbf{Physical AI Hackathon, Google DeepMind $\times$ IBM $\times$ Arke, Zurich} (2026) -
+    factory production scheduler: EDF planning, an LLM layer for plain-English operator
+    commands, camera-driven defect detection rescheduling the line in real time.
+  \item \textbf{re:connect Hackathon (OVD-Info), Berlin - Data \& AI track} (2026) -
+    LLM observability and anonymization proxy for OVD-Info's helpline (Chatwoot);
+    keeps sensitive victim data out of LLM APIs; shipped at the hackathon, now being
+    integrated into production.
+  \item \textbf{2nd place, bunq Financial API Hackathon} (2025) - LLM-driven simulation
+    engine for testing banking scenarios in natural language.
+  \item \textbf{2nd place, AI-Academy Olympiad, Russia} (2021) - MuSeRC reading
+    comprehension: ensembling over Russian SuperGLUE models, +2\% F1a over the published
+    state of the art.
+  \item \textbf{3rd place, 38th Classic CloudDelight Coding Contest, Amsterdam} (2023);
+    GoTo camp (Russia's largest competitive-programming camp): eight-time participant,
+    twice a junior teacher.
+\end{itemize}
+
+\section{Skills}
+
+\begin{itemize}
+  \item \textbf{Languages:} Python (expert), C/C++ (pybind11, CPython extensions), Go,
+    SQL, JavaScript
+  \item \textbf{ML \& numerics:} PyTorch (+ Lightning), FlashAttention, transformers,
+    scikit-learn, NumPy, SciPy
+  \item \textbf{Systems \& MLOps:} Azure DevOps, MLflow, DVC, Docker, Kubernetes, gRPC,
+    REST, PostgreSQL, Redis, Linux
+\end{itemize}
+
+\end{document}

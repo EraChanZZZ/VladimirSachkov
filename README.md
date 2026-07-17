@@ -21,6 +21,20 @@ npm run build    # dist/
   automatically.
 - **Colors/typography**: `src/styles/global.css`, all in the `:root` variables.
 
+## One-page PDF resume
+
+`resume.tex` mirrors the website content in compressed form; the compiled copy lives at
+`public/resume.pdf` and deploys with the site
+(<https://erachanzzz.github.io/VladimirSachkov/resume.pdf>).
+When resume content changes, update `resume.tex` too and recompile:
+
+```sh
+pdflatex -interaction=nonstopmode resume.tex
+copy resume.pdf public\resume.pdf
+```
+
+Git history is the version archive - each deploy pairs the site with its matching PDF.
+
 ## Deploy
 
 Push to `main`; the workflow in `.github/workflows/deploy.yml` builds and publishes to

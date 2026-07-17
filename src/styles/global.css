@@ -137,6 +137,7 @@ a:hover { text-decoration-thickness: 2px; }
 .project-header h1 { margin-bottom: 0.3rem; }
 .project-header .tag-row { margin-top: 0.75rem; }
 .prose h2 { font-size: 1.2rem; border: none; margin: 2rem 0 0.75rem; }
+.prose img { max-width: 100%; height: auto; border-radius: 6px; }
 .prose ul { padding-left: 1.2rem; margin: 0 0 1rem; }
 .prose li { margin-bottom: 0.35rem; }
 .prose code {
