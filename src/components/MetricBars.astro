@@ -9,7 +9,7 @@ const { caption, items, max, baseline, note } = Astro.props as {
 };
 const fmt = (n: number) => n.toFixed(3).replace(/0+$/, '').replace(/\.$/, '');
 
-// Precompute geometry here — Astro misparses `<`/`<=` inside template expressions.
+// Precompute geometry here - Astro misparses `<`/`<=` inside template expressions.
 const rows = items.map((it) => {
   const delta = it.value - baseline;
   const hasGain = delta > 0;
